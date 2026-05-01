@@ -163,15 +163,18 @@ function Invoke-KfTest {
         Invoke-KfDotNet @('build', $target, '--force', '-c', $Configuration)
 
         New-Item -Path 'out/TestResults' -ItemType Directory -Force | Out-Null
-        Invoke-KfDotNet @(
-            'test', $target,
-            '-c', $Configuration,
-            '--no-build',
-            '--filter', 'FullyQualifiedName!~Integration',
-            '--logger', 'html;LogFilePrefix=TestResults',
-            '--results-directory', 'out/TestResults'
-        )
-        Write-Host 'Test results: out/TestResults/TestResults*.html' -ForegroundColor Green
+        foreach ($project in $testProjects) {
+            $logName = "$($project.BaseName)-TestResults.html"
+            Invoke-KfDotNet @(
+                'test', $project.FullName,
+                '-c', $Configuration,
+                '--no-build',
+                '--filter', 'FullyQualifiedName!~Integration',
+                '--logger', "html;LogFileName=$logName",
+                '--results-directory', 'out/TestResults'
+            )
+        }
+        Write-Host 'Test results: out/TestResults/*-TestResults.html' -ForegroundColor Green
     }
     finally { Pop-Location }
 }
