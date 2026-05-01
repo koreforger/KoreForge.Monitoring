@@ -1,4 +1,5 @@
 using System.Text.Json;
+using KF.Monitoring.Contracts.EventReader;
 using KF.Monitoring.Contracts.Health;
 using KF.Monitoring.Contracts.Manifest;
 using KF.Monitoring.Contracts.Metrics;
@@ -119,5 +120,62 @@ public sealed class ContractSerializationTests
         Assert.Contains("\"fromTimestamp\":\"1970-01-01T00:00:00+00:00\"", json);
         Assert.Contains("\"ratePerSecond\":1.4", json);
         Assert.Contains("\"kind\":\"Counter\"", json);
+    }
+
+    [Fact]
+    public void EventReaderFasterStoreStatsDto_supports_named_initialization_and_serializes_spec_fields()
+    {
+        var stats = new EventReaderFasterStoreStatsDto
+        {
+            Timestamp = DateTimeOffset.UnixEpoch,
+            BacklogByShard = new Dictionary<string, long> { ["shard-1"] = 7 },
+            BacklogByModel = new Dictionary<string, long> { ["model-a"] = 5 },
+            ActiveModelVersions = new Dictionary<string, string> { ["projection-a"] = "v2" },
+            OldestBacklogAgeSeconds = 12.5,
+            StorePath = "C:/stores/main",
+            CheckpointPath = "C:/stores/checkpoints",
+            LeasePath = "C:/stores/leases",
+            StoreDirectorySizeBytes = 100,
+            CheckpointDirectorySizeBytes = 20,
+            LeaseDirectorySizeBytes = 10,
+            AvailableDiskBytes = 1_000,
+            EnqueuedTotal = 11,
+            EnqueuedRatePerSecond = 1.1,
+            ShardLeaseTotal = 12,
+            ShardLeaseRatePerSecond = 1.2,
+            OutputLeaseTotal = 13,
+            OutputLeaseRatePerSecond = 1.3,
+            CompletedTotal = 14,
+            CompletedRatePerSecond = 1.4,
+            RetryTotal = 15,
+            RetryRatePerSecond = 1.5,
+            FailedTotal = 16,
+            FailedRatePerSecond = 1.6,
+            SuppressedTotal = 17,
+            SuppressedRatePerSecond = 1.7,
+            CheckpointCount = 18,
+            LastCheckpointTime = DateTimeOffset.UnixEpoch.AddSeconds(30),
+            LastCheckpointDurationMs = 2.1,
+            AverageProcessingLatencyMs = 3.1,
+            P95ProcessingLatencyMs = 4.1,
+            AverageQueueLatencyMs = 5.1,
+            P95QueueLatencyMs = 6.1,
+            CleanupTotal = 19,
+            CleanupRatePerSecond = 1.9,
+            LastCleanupTime = DateTimeOffset.UnixEpoch.AddSeconds(60),
+            StaleRecoveryTotal = 20,
+            StaleRecoveryRatePerSecond = 2.0,
+            LastStaleRecoveryTime = DateTimeOffset.UnixEpoch.AddSeconds(90)
+        };
+
+        var json = JsonSerializer.Serialize(stats, JsonOptions);
+
+        Assert.Contains("\"timestamp\":\"1970-01-01T00:00:00+00:00\"", json);
+        Assert.Contains("\"backlogByShard\":{\"shard-1\":7}", json);
+        Assert.Contains("\"activeModelVersions\":{\"projection-a\":\"v2\"}", json);
+        Assert.Contains("\"oldestBacklogAgeSeconds\":12.5", json);
+        Assert.Contains("\"completedRatePerSecond\":1.4", json);
+        Assert.Contains("\"p95ProcessingLatencyMs\":4.1", json);
+        Assert.Contains("\"staleRecoveryRatePerSecond\":2", json);
     }
 }

@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/KF.Monitoring.Contracts/KF.Monitoring.Contracts.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/KF.Monitoring.Contracts.Tests/KF.Monitoring.Contracts.Tests.csproj" />
+  </Folder>
+</Solution>
