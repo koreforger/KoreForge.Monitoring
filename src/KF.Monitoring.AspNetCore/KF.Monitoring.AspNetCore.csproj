@@ -8,7 +8,7 @@
   </PropertyGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <ProjectReference Include="..\KF.Monitoring.Contracts\KF.Monitoring.Contracts.csproj" />
+    <PackageReference Include="KoreForge.Monitoring.Contracts" VersionOverride="1.0.1-alpha" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\README.md" Pack="true" PackagePath="\" />

@@ -12,6 +12,6 @@
     <PackageReference Include="xunit.runner.visualstudio" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\KF.Monitoring.Contracts\KF.Monitoring.Contracts.csproj" />
+    <PackageReference Include="KoreForge.Monitoring.Contracts" VersionOverride="1.0.1-alpha" />
   </ItemGroup>
 </Project>

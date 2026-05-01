@@ -13,6 +13,6 @@
     <PackageReference Include="xunit.runner.visualstudio" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\KF.Monitoring.AspNetCore\KF.Monitoring.AspNetCore.csproj" />
+    <PackageReference Include="KoreForge.Monitoring.AspNetCore" VersionOverride="1.0.1-alpha" />
   </ItemGroup>
 </Project>

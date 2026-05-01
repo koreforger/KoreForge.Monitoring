@@ -13,6 +13,6 @@
     <PackageReference Include="xunit.runner.visualstudio" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\MonitoringRegistry\MonitoringRegistry.csproj" />
+    <PackageReference Include="MonitoringRegistry" VersionOverride="1.0.1-alpha" />
   </ItemGroup>
 </Project>
