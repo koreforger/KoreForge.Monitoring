@@ -1,8 +1,10 @@
 <Solution>
   <Folder Name="/src/">
     <Project Path="src/KF.Monitoring.Contracts/KF.Monitoring.Contracts.csproj" />
+    <Project Path="src/KF.Monitoring.Registry/KF.Monitoring.Registry.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/KF.Monitoring.Contracts.Tests/KF.Monitoring.Contracts.Tests.csproj" />
+    <Project Path="tests/KF.Monitoring.Registry.Tests/KF.Monitoring.Registry.Tests.csproj" />
   </Folder>
 </Solution>
