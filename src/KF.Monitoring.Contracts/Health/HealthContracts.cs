@@ -4,24 +4,19 @@ namespace KF.Monitoring.Contracts.Health;
 
 public sealed record HealthSnapshotDto(
     MonitoringHealthStatus Status,
-    IReadOnlyList<HealthCheckDto> Checks,
-    DateTimeOffset Timestamp);
+    IReadOnlyList<HealthCheckDto> Checks);
 
 public sealed record HealthCheckDto(
-    string Key,
-    string DisplayName,
+    string Name,
     MonitoringHealthStatus Status,
-    string? Description = null,
-    DateTimeOffset? Timestamp = null,
-    IReadOnlyDictionary<string, object?>? Data = null);
+    string Description);
 
 public sealed record HealthChangedDto(
+    string MessageType,
+    DateTimeOffset TimestampUtc,
     string ApplicationId,
-    string InstanceId,
-    MonitoringHealthStatus PreviousStatus,
-    MonitoringHealthStatus CurrentStatus,
-    DateTimeOffset Timestamp,
-    IReadOnlyList<HealthCheckDto> Checks);
+    MonitoringHealthStatus OverallStatus,
+    IReadOnlyList<HealthCheckDto> Changed);
 
 [JsonConverter(typeof(JsonStringEnumConverter<MonitoringHealthStatus>))]
 public enum MonitoringHealthStatus

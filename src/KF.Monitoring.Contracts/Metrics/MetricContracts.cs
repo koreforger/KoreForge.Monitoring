@@ -3,33 +3,28 @@ using System.Text.Json.Serialization;
 namespace KF.Monitoring.Contracts.Metrics;
 
 public sealed record MetricSnapshotDto(
+    DateTimeOffset TimestampUtc,
     string ApplicationId,
-    string InstanceId,
-    DateTimeOffset Timestamp,
-    IReadOnlyList<MetricValueDto> Values);
+    IReadOnlyList<MetricValueDto> Metrics);
 
 public sealed record MetricValueDto(
     string Key,
+    string Label,
     MetricKind Kind,
     double Value,
-    string? Unit = null,
-    string? DisplayName = null,
-    IReadOnlyDictionary<string, string>? Tags = null);
+    string Unit,
+    string ComponentKey);
 
 public sealed record MetricDeltaDto(
+    string MessageType,
+    DateTimeOffset TimestampUtc,
     string ApplicationId,
-    string InstanceId,
-    DateTimeOffset FromTimestamp,
-    DateTimeOffset ToTimestamp,
-    IReadOnlyList<MetricDeltaValueDto> Values);
+    long Sequence,
+    IReadOnlyList<MetricDeltaValueDto> Metrics);
 
 public sealed record MetricDeltaValueDto(
     string Key,
-    MetricKind Kind,
-    double Delta,
-    double? RatePerSecond = null,
-    string? Unit = null,
-    IReadOnlyDictionary<string, string>? Tags = null);
+    double Value);
 
 [JsonConverter(typeof(JsonStringEnumConverter<MetricKind>))]
 public enum MetricKind

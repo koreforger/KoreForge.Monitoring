@@ -1,41 +1,34 @@
-using KF.Monitoring.Contracts.Health;
-using KF.Monitoring.Contracts.Manifest;
-
 namespace KF.Monitoring.Contracts.Registry;
 
 public sealed record MonitoringAppRegistrationDto(
-    string ApplicationId,
+    string ApplicationInstanceId,
     string ApplicationName,
     string ApplicationType,
     string InstanceId,
     string Environment,
     string Version,
-    string ManifestEndpoint,
-    string? StreamEndpoint = null,
-    DateTimeOffset? RegisteredAt = null);
+    string MonitoringBaseUrl,
+    IReadOnlyDictionary<string, string>? Labels = null);
 
 public sealed record MonitoringAppHeartbeatDto(
-    string ApplicationId,
-    string InstanceId,
-    DateTimeOffset Timestamp,
-    MonitoringHealthStatus Status,
-    string? Version = null,
-    IReadOnlyDictionary<string, object?>? Data = null);
+    string ApplicationInstanceId,
+    string? Status = null,
+    string? Version = null);
 
 public sealed record MonitoringAppRegistryEntryDto(
-    string ApplicationId,
+    string ApplicationInstanceId,
     string ApplicationName,
     string ApplicationType,
     string InstanceId,
     string Environment,
     string Version,
-    string ManifestEndpoint,
-    string? StreamEndpoint,
-    DateTimeOffset RegisteredAt,
-    DateTimeOffset LastHeartbeatAt,
-    MonitoringHealthStatus Status,
-    MonitoringManifestDto? Manifest = null);
+    string MonitoringBaseUrl,
+    string Status,
+    DateTimeOffset RegisteredAtUtc,
+    DateTimeOffset LastSeenUtc,
+    DateTimeOffset ExpiresAtUtc,
+    IReadOnlyDictionary<string, string> Labels);
 
 public sealed record MonitoringAppRegistryListDto(
-    IReadOnlyList<MonitoringAppRegistryEntryDto> Entries,
-    DateTimeOffset Timestamp);
+    DateTimeOffset TimestampUtc,
+    IReadOnlyList<MonitoringAppRegistryEntryDto> Apps);

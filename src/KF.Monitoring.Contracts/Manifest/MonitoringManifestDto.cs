@@ -1,7 +1,3 @@
-using KF.Monitoring.Contracts.Health;
-using KF.Monitoring.Contracts.Metrics;
-using KF.Monitoring.Contracts.Process;
-
 namespace KF.Monitoring.Contracts.Manifest;
 
 public sealed record MonitoringManifestDto(
@@ -13,10 +9,10 @@ public sealed record MonitoringManifestDto(
     string Version,
     string MonitoringContractVersion,
     IReadOnlyList<CapabilityDefinitionDto> Capabilities,
-    ProcessDefinitionDto? Process,
-    MetricSnapshotDto? MetricsSnapshot,
-    string? Stream,
-    HealthSnapshotDto? Health);
+    string Process,
+    string MetricsSnapshot,
+    string Stream,
+    string Health);
 
 public sealed record CapabilityDefinitionDto(
     string Key,

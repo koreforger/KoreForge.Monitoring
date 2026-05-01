@@ -2,39 +2,37 @@ namespace KF.Monitoring.Contracts.EventReader;
 
 public sealed record EventReaderFasterStoreStatsDto
 {
-    public required DateTimeOffset Timestamp { get; init; }
+    public required DateTimeOffset TimestampUtc { get; init; }
 
-    public required IReadOnlyDictionary<string, long> BacklogByShard { get; init; }
+    public required IReadOnlyDictionary<string, long> BacklogByState { get; init; }
 
-    public required IReadOnlyDictionary<string, long> BacklogByModel { get; init; }
+    public required IReadOnlyDictionary<int, long> BacklogByShard { get; init; }
 
-    public required IReadOnlyDictionary<string, string> ActiveModelVersions { get; init; }
+    public required IReadOnlyList<long> ActiveRuntimeModelVersions { get; init; }
 
-    public required double OldestBacklogAgeSeconds { get; init; }
+    public required double? OldestUnfinishedAgeSeconds { get; init; }
 
-    public required string StorePath { get; init; }
+    public required string LogPath { get; init; }
 
     public required string CheckpointPath { get; init; }
 
-    public required string LeasePath { get; init; }
+    public required long LogDirectoryBytes { get; init; }
 
-    public required long StoreDirectorySizeBytes { get; init; }
+    public required long CheckpointDirectoryBytes { get; init; }
 
-    public required long CheckpointDirectorySizeBytes { get; init; }
+    public required long DiskFreeBytes { get; init; }
 
-    public required long LeaseDirectorySizeBytes { get; init; }
-
-    public required long AvailableDiskBytes { get; init; }
+    public required long DiskTotalBytes { get; init; }
 
     public required long EnqueuedTotal { get; init; }
 
     public required double EnqueuedRatePerSecond { get; init; }
 
-    public required long ShardLeaseTotal { get; init; }
+    public required long ShardLeasedTotal { get; init; }
 
     public required double ShardLeaseRatePerSecond { get; init; }
 
-    public required long OutputLeaseTotal { get; init; }
+    public required long OutputLeasedTotal { get; init; }
 
     public required double OutputLeaseRatePerSecond { get; init; }
 
@@ -56,27 +54,23 @@ public sealed record EventReaderFasterStoreStatsDto
 
     public required long CheckpointCount { get; init; }
 
-    public required DateTimeOffset? LastCheckpointTime { get; init; }
+    public required DateTimeOffset? LastCheckpointUtc { get; init; }
 
     public required double LastCheckpointDurationMs { get; init; }
 
-    public required double AverageProcessingLatencyMs { get; init; }
+    public required double AverageEnqueueLatencyMs { get; init; }
 
-    public required double P95ProcessingLatencyMs { get; init; }
+    public required double P95EnqueueLatencyMs { get; init; }
 
-    public required double AverageQueueLatencyMs { get; init; }
+    public required double AverageShardLeaseLatencyMs { get; init; }
 
-    public required double P95QueueLatencyMs { get; init; }
+    public required double P95ShardLeaseLatencyMs { get; init; }
 
-    public required long CleanupTotal { get; init; }
+    public required double AverageOutputLeaseLatencyMs { get; init; }
 
-    public required double CleanupRatePerSecond { get; init; }
+    public required double P95OutputLeaseLatencyMs { get; init; }
 
-    public required DateTimeOffset? LastCleanupTime { get; init; }
+    public required long CleanupExpiredTotal { get; init; }
 
-    public required long StaleRecoveryTotal { get; init; }
-
-    public required double StaleRecoveryRatePerSecond { get; init; }
-
-    public required DateTimeOffset? LastStaleRecoveryTime { get; init; }
+    public required long StaleLeaseRecoveryTotal { get; init; }
 }
