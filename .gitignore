@@ -1,0 +1,9 @@
+bin/
+obj/
+.vs/
+.vscode/
+TestResults/
+coverage/
+out/
+node_modules/
+dist/
