@@ -107,6 +107,14 @@ function Get-KfBenchmarkProjects {
         Where-Object { $_.BaseName -match 'Benchmark' -or (Test-KfProjectContains -Project $_ -Pattern 'BenchmarkDotNet') }
 }
 
+function Get-KfPackableProjects {
+    param([Parameter(Mandatory)][string]$RepoRoot)
+
+    Get-KfProjectFiles -RepoRoot $RepoRoot |
+        Where-Object { -not (Test-KfProjectContains -Project $_ -Pattern '<IsPackable>false</IsPackable>') } |
+        Where-Object { -not (Test-KfProjectContains -Project $_ -Pattern 'Microsoft.NET.Test.Sdk') }
+}
+
 function Invoke-KfClean {
     param([string]$Configuration = 'Debug')
 
@@ -160,10 +168,10 @@ function Invoke-KfTest {
             '-c', $Configuration,
             '--no-build',
             '--filter', 'FullyQualifiedName!~Integration',
-            '--logger', 'html;LogFileName=TestResults.html',
+            '--logger', 'html;LogFilePrefix=TestResults',
             '--results-directory', 'out/TestResults'
         )
-        Write-Host 'Test results: out/TestResults/TestResults.html' -ForegroundColor Green
+        Write-Host 'Test results: out/TestResults/TestResults*.html' -ForegroundColor Green
     }
     finally { Pop-Location }
 }
@@ -194,7 +202,7 @@ function Invoke-KfCoverage {
             '-c', $Configuration,
             '--no-build',
             '--filter', 'FullyQualifiedName!~Integration',
-            '--logger', 'html;LogFileName=TestResults.html',
+            '--logger', 'html;LogFilePrefix=TestResults',
             '--results-directory', 'out/TestResults',
             '--collect', 'XPlat Code Coverage'
         )
@@ -307,27 +315,30 @@ function Invoke-KfPack {
     )
 
     $repoRoot = Get-KfRepoRoot
-    $target = Get-KfBuildTarget -RepoRoot $repoRoot
+    $packableProjects = @(Get-KfPackableProjects -RepoRoot $repoRoot)
 
     Push-Location $repoRoot
     try {
         Ensure-KfLocalNuGetSources -RepoRoot $repoRoot
         New-Item -Path 'artifacts' -ItemType Directory -Force | Out-Null
-        $dotnetArgs = @('pack', $target, '-c', $Configuration, '-o', 'artifacts')
-        if ($NoBuild) { $dotnetArgs += '--no-build' }
-        if ($Version) {
-            $semver = $Version -replace '-.*$', ''
-            $parts = $semver.Split('.')
-            if ($parts.Count -lt 3) {
-                throw "Version must include major, minor, and patch parts: $Version"
+        foreach ($project in $packableProjects) {
+            $dotnetArgs = @('pack', $project.FullName, '-c', $Configuration, '-o', 'artifacts')
+            if ($NoBuild) { $dotnetArgs += '--no-build' }
+            if ($Version) {
+                $semver = $Version -replace '-.*$', ''
+                $parts = $semver.Split('.')
+                if ($parts.Count -lt 3) {
+                    throw "Version must include major, minor, and patch parts: $Version"
+                }
+
+                $assemblyVersion = "$($parts[0]).$($parts[1]).0.0"
+                $fileVersion = "$($parts[0]).$($parts[1]).$($parts[2]).0"
+
+                $dotnetArgs += "-p:PackageVersion=$Version;Version=$Version;MinVerSkip=true;AssemblyVersion=$assemblyVersion;FileVersion=$fileVersion"
             }
 
-            $assemblyVersion = "$($parts[0]).$($parts[1]).0.0"
-            $fileVersion = "$($parts[0]).$($parts[1]).$($parts[2]).0"
-
-            $dotnetArgs += "-p:PackageVersion=$Version;Version=$Version;MinVerSkip=true;AssemblyVersion=$assemblyVersion;FileVersion=$fileVersion"
+            Invoke-KfDotNet -Arguments $dotnetArgs
         }
-        Invoke-KfDotNet -Arguments $dotnetArgs
         Write-Host 'Packages written to artifacts/.' -ForegroundColor Green
     }
     finally { Pop-Location }
@@ -418,7 +429,7 @@ function Invoke-KfReleaseNuGetFromLocal {
                 '-c', 'Release',
                 '--no-build',
                 '--filter', 'FullyQualifiedName!~Integration',
-                '--logger', 'html;LogFileName=TestResults.html',
+                '--logger', 'html;LogFilePrefix=TestResults',
                 '--results-directory', 'out/TestResults'
             )
         }
