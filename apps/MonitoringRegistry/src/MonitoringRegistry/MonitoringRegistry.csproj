@@ -1,12 +1,21 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <IsPackable>false</IsPackable>
+    <IsPackable>true</IsPackable>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="KoreForge.Monitoring.Registry" VersionOverride="1.0.1-alpha" />
+  </ItemGroup>
+  <!-- Include the deps.json in the package contentFiles so consumers (test projects) get it copied to their output -->
+  <ItemGroup>
+    <None Include="$(OutputPath)MonitoringRegistry.deps.json" Pack="true" PackagePath="contentFiles/any/net10.0/MonitoringRegistry.deps.json">
+      <BuildAction>Content</BuildAction>
+      <PackageCopyToOutput>true</PackageCopyToOutput>
+    </None>
   </ItemGroup>
 </Project>

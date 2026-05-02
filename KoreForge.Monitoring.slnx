@@ -1,8 +1,8 @@
 <Solution>
   <Folder Name="/src/">
-    <Project Path="src/KF.Monitoring.AspNetCore/KF.Monitoring.AspNetCore.csproj" />
-    <Project Path="src/KF.Monitoring.Contracts/KF.Monitoring.Contracts.csproj" />
-    <Project Path="src/KF.Monitoring.Registry/KF.Monitoring.Registry.csproj" />
+    <Project Path="src/KoreForge.Monitoring.AspNetCore/KoreForge.Monitoring.AspNetCore.csproj" />
+    <Project Path="src/KoreForge.Monitoring.Contracts/KoreForge.Monitoring.Contracts.csproj" />
+    <Project Path="src/KoreForge.Monitoring.Registry/KoreForge.Monitoring.Registry.csproj" />
   </Folder>
   <Folder Name="/apps/MonitoringRegistry/src/">
     <Project Path="apps/MonitoringRegistry/src/MonitoringRegistry/MonitoringRegistry.csproj" />
@@ -11,8 +11,8 @@
     <Project Path="apps/MonitoringRegistry/tests/MonitoringRegistry.Tests/MonitoringRegistry.Tests.csproj" />
   </Folder>
   <Folder Name="/tests/">
-    <Project Path="tests/KF.Monitoring.AspNetCore.Tests/KF.Monitoring.AspNetCore.Tests.csproj" />
-    <Project Path="tests/KF.Monitoring.Contracts.Tests/KF.Monitoring.Contracts.Tests.csproj" />
-    <Project Path="tests/KF.Monitoring.Registry.Tests/KF.Monitoring.Registry.Tests.csproj" />
+    <Project Path="tests/KoreForge.Monitoring.AspNetCore.Tests/KoreForge.Monitoring.AspNetCore.Tests.csproj" />
+    <Project Path="tests/KoreForge.Monitoring.Contracts.Tests/KoreForge.Monitoring.Contracts.Tests.csproj" />
+    <Project Path="tests/KoreForge.Monitoring.Registry.Tests/KoreForge.Monitoring.Registry.Tests.csproj" />
   </Folder>
 </Solution>

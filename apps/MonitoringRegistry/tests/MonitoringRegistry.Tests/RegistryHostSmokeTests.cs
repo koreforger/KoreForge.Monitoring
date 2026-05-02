@@ -1,5 +1,5 @@
 using System.Net.Http.Json;
-using KF.Monitoring.Contracts.Registry;
+using KoreForge.Monitoring.Contracts.Registry;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 

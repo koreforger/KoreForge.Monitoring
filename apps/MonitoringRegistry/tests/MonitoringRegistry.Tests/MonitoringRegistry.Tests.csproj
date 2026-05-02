@@ -1,10 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
@@ -13,6 +14,18 @@
     <PackageReference Include="xunit.runner.visualstudio" />
   </ItemGroup>
   <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="MonitoringRegistry" VersionOverride="1.0.1-alpha" />
   </ItemGroup>
+  <!-- Inject MonitoringRegistry into the MvcTesting manifest so WebApplicationFactory finds the content root.
+       The content root is the test output directory, where appsettings.json is copied by the package contentFiles. -->
+  <Target Name="_AddMonitoringRegistryToManifest" AfterTargets="_ResolveMvcTestProjectReferences" BeforeTargets="_AddContentRootForProjectReferences">
+    <ItemGroup>
+      <_ManifestProjects Include="MonitoringRegistry">
+        <ContentRoot>$(OutDir.TrimEnd('\').TrimEnd('/'))</ContentRoot>
+      </_ManifestProjects>
+    </ItemGroup>
+  </Target>
 </Project>

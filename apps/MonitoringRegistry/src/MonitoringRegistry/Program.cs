@@ -1,4 +1,4 @@
-using KF.Monitoring.Registry;
+using KoreForge.Monitoring.Registry;
 
 var builder = WebApplication.CreateBuilder(args);
 
