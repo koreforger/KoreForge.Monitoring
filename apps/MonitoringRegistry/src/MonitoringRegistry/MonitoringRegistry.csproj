@@ -9,7 +9,7 @@
     <PreserveCompilationContext>true</PreserveCompilationContext>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="KoreForge.Monitoring.Registry" VersionOverride="1.1.2" />
+    <PackageReference Include="KoreForge.Monitoring.Registry" VersionOverride="0.0.11-alpha.0" />
   </ItemGroup>
   <!-- Include the deps.json in the package contentFiles so consumers (test projects) get it copied to their output -->
   <ItemGroup>
